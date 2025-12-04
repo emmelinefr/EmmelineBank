@@ -48,17 +48,25 @@ public class main {
                                     JOptionPane.QUESTION_MESSAGE);
                     int tipoDaContaInt = Integer.parseInt(tipoDaContaStr);
 
-                    TipoConta tipoDaConta;
+                    Conta novaConta = null;
+
                     if (tipoDaContaInt == 1) {
-                        tipoDaConta = TipoConta.CONTA_CORRENTE;
+                        novaConta = new ContaCorrente(numAgenciaInt, numContaInt, titularStr);
+
                     } else if (tipoDaContaInt == 2) {
-                        tipoDaConta = TipoConta.CONTA_POUPANCA;
+                        String jurosStr = JOptionPane.showInputDialog(null, "Digite o valor do juros:");
+                        double jurosDoub = Double.parseDouble(jurosStr);
+
+                        novaConta = new ContaPoupanca(numAgenciaInt, numContaInt, titularStr, jurosDoub);
+
                     } else {
-                        tipoDaConta = TipoConta.INDEFINIDO;
+                        JOptionPane.showMessageDialog(null, "Opção inválida!");
                     }
 
-                    Conta novaConta = new Conta(numAgenciaInt, numContaInt, titularStr, tipoDaConta);
-                    emmelineBank.abrirConta(novaConta);
+                    //adiciona na lista de contas
+                    if (novaConta != null) {
+                        emmelineBank.abrirConta(novaConta);
+                    }
                     break;
 
                 case 3: //pesquisar conta por número

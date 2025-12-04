@@ -48,7 +48,6 @@ public class Banco {
                 txtListaDeContas += "\nTitular: " + conta_indice.getTitular() +
                         "\nNúmero da Conta: " + conta_indice.getNumeroConta() +
                         "\nNúmero da Agência: " + conta_indice.getNumeroAgencia() +
-                        "\nTipo da Conta: " + conta_indice.getTipo() +
                         "\nSaldo: " + conta_indice.getExtrato() +
                         "\n----------------------------";
             }
@@ -72,7 +71,7 @@ public class Banco {
         }
 
         if (contaEncontrada != null) {
-            contaEncontrada.exibirInfoConta();
+            JOptionPane.showMessageDialog(null, contaEncontrada.exibirInfoConta());
         } else {
             JOptionPane.showMessageDialog(null, "Nenhuma conta encontrada!");
         }

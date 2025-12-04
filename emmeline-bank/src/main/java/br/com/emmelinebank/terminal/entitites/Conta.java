@@ -2,32 +2,31 @@ package br.com.emmelinebank.terminal.entitites;
 
 import javax.swing.*;
 
-public class Conta {
+public abstract class Conta {
 
     private int numeroAgencia;
     private int numeroConta;
     private String titular;
     private double saldo;
-    private TipoConta tipo;
+
 
     private static final double VALOR_DEPOSITO_MINIMO = 0;
     public static final double VALOR_COTACAO_DOLAR = 5;
     public static final double VALOR_COTACAO_EURO = 6;
 
 
-    public Conta(int numeroAgencia, int numeroConta, String titular, double saldo, TipoConta tipo) {
+    public Conta(int numeroAgencia, int numeroConta, String titular, double saldo) {
         this.numeroAgencia = numeroAgencia;
         this.numeroConta = numeroConta;
         this.titular = titular;
         this.saldo = saldo;
-        this.tipo = tipo;
+
     }
 
-    public Conta(int numeroAgencia, int numeroConta, String titular, TipoConta tipo) {
+    public Conta(int numeroAgencia, int numeroConta, String titular) {
         this.numeroAgencia = numeroAgencia;
         this.numeroConta = numeroConta;
         this.titular = titular;
-        this.tipo = tipo;
     }
 
 
@@ -55,22 +54,14 @@ public class Conta {
         this.titular = titular;
     }
 
-    public TipoConta getTipo() {
-        return tipo;
-    }
 
-    public void setTipo(TipoConta tipo) {
-        this.tipo = tipo;
-    }
-
-
-    public void depositar (double montante) {
+    public final void depositar (double montante) {
         if (montante > VALOR_DEPOSITO_MINIMO) {
             this.saldo += montante;
         }
     }
 
-    public void depositar (double montante, TipoMoeda moeda) {
+    public final void depositar (double montante, TipoMoeda moeda) {
         double saldoDepositar = 0;
 
         switch (moeda) {
@@ -106,7 +97,6 @@ public class Conta {
         return "\nTitular: " + this.getTitular() +
                 "\nNúmero da Conta: " + this.getNumeroConta() +
                 "\nNúmero da Agência: " + this.getNumeroAgencia() +
-                "\nTipo da Conta: " + this.getTipo() +
                 "\nSaldo: " + this.getExtrato() +
                 "\n----------------------------";
 
