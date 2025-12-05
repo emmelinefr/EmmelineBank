@@ -1,5 +1,8 @@
 package br.com.emmelinebank.terminal.entitites;
 
+import br.com.emmelinebank.terminal.exceptions.SaldoInsuficienteException;
+import br.com.emmelinebank.terminal.exceptions.ValorInvalidoException;
+
 public final class ContaPoupanca extends Conta {
 
 
@@ -27,7 +30,7 @@ public final class ContaPoupanca extends Conta {
 
 
     @Override
-    public void sacar(double montante) {
+    public void sacar(double montante) throws ValorInvalidoException, SaldoInsuficienteException {
         montante += IMPOSTO_SAQUE_CONTA_POUPANCA;
         super.sacar(montante);
     }

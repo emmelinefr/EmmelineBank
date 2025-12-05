@@ -1,6 +1,8 @@
 package br.com.emmelinebank.terminal.main;
 
 import br.com.emmelinebank.terminal.entitites.*;
+import br.com.emmelinebank.terminal.exceptions.SaldoInsuficienteException;
+import br.com.emmelinebank.terminal.exceptions.ValorInvalidoException;
 
 import javax.swing.*;
 
@@ -21,7 +23,9 @@ public class main {
                             "\n2. Adicionar Conta" +
                             "\n3. Pesquisar Conta por Número" +
                             "\n4. Encerrar Conta" +
-                            "\n5. Sair",
+                            "\n5. Sacar" +
+                            "\n6. Depositar" +
+                            "\n7. Sair",
                             "EmmelineBank",
                             JOptionPane.INFORMATION_MESSAGE);
             opcaoInt  = Integer.parseInt(opcaoStr);
@@ -75,9 +79,60 @@ public class main {
 
                 case 4: //encerrar conta pelo número
                     emmelineBank.encerrarContaPeloNumero();
+                    break;
+
+                case 5: // sacar
+                    Conta contaEncontradaSacar = emmelineBank.pesquisarContaPeloNumero();
+
+                    if (contaEncontradaSacar == null) {
+                        JOptionPane.showMessageDialog(null, "Nenhuma conta encontrada!");
+                        break;
+                    }
+
+                    String valorSaqueSacarStr = JOptionPane.showInputDialog(null, "Sr(a) " + contaEncontradaSacar.getTitular() + ", quanto você deseja sacar?"
+                    );
+                    double valorSaqueSacarDou = Double.parseDouble(valorSaqueSacarStr);
+
+                    try {
+                        contaEncontradaSacar.sacar(valorSaqueSacarDou);
+                        JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!");
+
+                    } catch (ValorInvalidoException e) {
+                        JOptionPane.showMessageDialog(null, "Você informou um valor inválido!");
+
+                    } catch (SaldoInsuficienteException e) {
+                        JOptionPane.showMessageDialog(null, "Você não tem saldo suficiente!");
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Operação encerrada!");
+                    break;
+
+                case 6:
+                    Conta contaEncontradaDepositar = emmelineBank.pesquisarContaPeloNumero();
+
+                    if (contaEncontradaDepositar == null) {
+                        JOptionPane.showMessageDialog(null, "Nenhuma conta encontrada!");
+                        break;
+                    }
+
+                    String valorDepositarStr = JOptionPane.showInputDialog(null, "Sr(a) " + contaEncontradaDepositar.getTitular() + ", quanto você deseja depositar?"
+                    );
+                    double valorDepositarDou = Double.parseDouble(valorDepositarStr);
+
+                    try {
+                        contaEncontradaDepositar.depositar(valorDepositarDou);
+                        JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!");
+
+                    } catch (ValorInvalidoException e) {
+                        JOptionPane.showMessageDialog(null, "Você informou um valor inválido!");
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Operação encerrada!");
+                    break;
             }
 
-        } while (opcaoInt != 5);
+
+        } while (opcaoInt != 7);
             JOptionPane.showMessageDialog(null, "Obrigado por usar o EmmelineBank!");
 
     }

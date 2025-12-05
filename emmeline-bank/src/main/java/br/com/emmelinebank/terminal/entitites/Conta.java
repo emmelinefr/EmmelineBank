@@ -1,5 +1,8 @@
 package br.com.emmelinebank.terminal.entitites;
 
+import br.com.emmelinebank.terminal.exceptions.SaldoInsuficienteException;
+import br.com.emmelinebank.terminal.exceptions.ValorInvalidoException;
+
 import javax.swing.*;
 
 public abstract class Conta {
@@ -55,14 +58,22 @@ public abstract class Conta {
     }
 
 
-    public final void depositar (double montante) {
-        if (montante > VALOR_DEPOSITO_MINIMO) {
-            this.saldo += montante;
+    public final void depositar (double montante) throws ValorInvalidoException {
+
+        if (montante <= 0) {
+            throw new ValorInvalidoException("O valor tem que ser superior a R$0,00. Você colocou " + montante);
         }
+
+        this.saldo += montante;
     }
 
-    public final void depositar (double montante, TipoMoeda moeda) {
+
+    public final void depositar (double montante, TipoMoeda moeda) throws ValorInvalidoException{
         double saldoDepositar = 0;
+
+        if (montante <= 0) {
+            throw new ValorInvalidoException("O valor tem que ser superior a R$0,00. Você colocou " + montante);
+        }
 
         switch (moeda) {
             case REAL:
@@ -83,9 +94,16 @@ public abstract class Conta {
         }
     }
 
-    public void sacar (double montante) {
-        if (montante > VALOR_DEPOSITO_MINIMO && montante <= saldo) {
+    public void sacar (double montante) throws ValorInvalidoException, SaldoInsuficienteException {
+
+            if (montante <= 0) {
+                throw new ValorInvalidoException("O valor tem que ser superior a R$0,00. Você colocou " + montante);
+            }
+
+        if (montante > this.saldo) {
             this.saldo -= montante;
+        } else {
+            throw new SaldoInsuficienteException("Você colocou um valor menor que " + VALOR_DEPOSITO_MINIMO + " ou valor superior ao saldo!");
         }
     }
 
